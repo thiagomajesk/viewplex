@@ -8,6 +8,8 @@ defmodule Viewplex.ComponentTest do
   alias Viewplex.Components.TitleBlock
   alias Viewplex.Components.Label
   alias Viewplex.Components.LabelBlock
+  alias Viewplex.Components.Fail
+  alias Viewplex.Components.Mount
 
   doctest Viewplex
 
@@ -39,6 +41,15 @@ defmodule Viewplex.ComponentTest do
       html = component(Label, title: "Sir")
 
       assert safe_to_string(html) == "<span>\n  Hello!\nSir</span>\n"
+    end
+
+    test "should not render if mount failed" do
+      assert component(Fail) == nil
+    end
+
+    test "should mount value" do
+      html = component(Mount)
+      assert safe_to_string(html) == "<strong>John</strong>\n"
     end
 
   end

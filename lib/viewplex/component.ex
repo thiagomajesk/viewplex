@@ -8,6 +8,11 @@ defmodule Viewplex.Component do
       use Phoenix.View, root: path, namespace: __MODULE__, path: ""
 
       def __template__, do: "#{resource_name(__MODULE__)}.html"
+
+      def mount(params), do: {:ok, params}
+
+      defoverridable mount: 1
+
     end
   end
 end

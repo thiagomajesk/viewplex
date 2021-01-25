@@ -17,7 +17,13 @@ defmodule Viewplex.Helpers do
     render_component(module, Keyword.put(params, :content, block))
   end
 
-  defp render_component(module, assigns) do
-    render(module, module.__template__(), assigns)
+  defp render_component(module, params) do
+    case module.mount(params) do
+      {:ok, params} ->
+        render(module, module.__template__(), params)
+
+      {:error, _reason} ->
+        nil
+    end
   end
 end
