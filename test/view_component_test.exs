@@ -10,12 +10,9 @@ defmodule ViewplexTest do
   doctest Viewplex
 
   test "component/1 without block" do
-    html =
-      Title
-      |> component()
-      |> Phoenix.HTML.safe_to_string()
+    html = component(Title)
 
-    assert html == "<h1>Hi!</h1>\n"
+    assert safe_to_string(html) == "<h1>Hi!</h1>\n"
   end
 
   test "component/1 with block" do
