@@ -30,9 +30,10 @@ defmodule Viewplex.ComponentTest do
     end
 
     test "with params and with block" do
-      html = component LabelBlock, title: "Sir" do
-        "John Doe"
-      end
+      html =
+        component LabelBlock, title: "Sir" do
+          "John Doe"
+        end
 
       assert safe_to_string(html) == "<span>\n  Hello!\nSir  <strong>John Doe</strong>\n</span>\n"
     end
@@ -51,6 +52,5 @@ defmodule Viewplex.ComponentTest do
       html = component(Mount)
       assert safe_to_string(html) == "<strong>John</strong>\n"
     end
-
   end
 end
