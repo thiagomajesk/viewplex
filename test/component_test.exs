@@ -1,4 +1,4 @@
-defmodule ViewplexTest do
+defmodule Viewplex.ComponentTest do
   use ExUnit.Case
 
   import Viewplex.Helpers
