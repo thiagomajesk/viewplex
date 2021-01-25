@@ -1,4 +1,4 @@
-defmodule Viewplex.View do
+defmodule Viewplex.Component do
   import Phoenix.Naming, only: [resource_name: 1]
 
   defmacro __using__(_opts) do

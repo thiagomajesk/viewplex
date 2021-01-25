@@ -1,3 +1,3 @@
 defmodule Viewplex.Components.Title do
-  use Viewplex.View
+  use Viewplex.Component
 end
