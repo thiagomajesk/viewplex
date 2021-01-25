@@ -1,0 +1,5 @@
+<span>
+  Hello!
+  <%= @title %>
+  <strong><%= @content %></strong>
+</span>

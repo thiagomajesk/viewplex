@@ -6,6 +6,8 @@ defmodule Viewplex.ComponentTest do
 
   alias Viewplex.Components.Title
   alias Viewplex.Components.TitleBlock
+  alias Viewplex.Components.Label
+  alias Viewplex.Components.LabelBlock
 
   doctest Viewplex
 
@@ -24,5 +26,20 @@ defmodule Viewplex.ComponentTest do
 
       assert safe_to_string(html) == "<h1>Hi! You</h1>\n"
     end
+
+    test "with params and with block" do
+      html = component LabelBlock, title: "Sir" do
+        "John Doe"
+      end
+
+      assert safe_to_string(html) == "<span>\n  Hello!\nSir  <strong>John Doe</strong>\n</span>\n"
+    end
+
+    test "with params but without block" do
+      html = component(Label, title: "Sir")
+
+      assert safe_to_string(html) == "<span>\n  Hello!\nSir</span>\n"
+    end
+
   end
 end

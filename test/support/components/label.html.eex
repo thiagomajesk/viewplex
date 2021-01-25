@@ -1,0 +1,4 @@
+<span>
+  Hello!
+  <%= @title %>
+</span>
