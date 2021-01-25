@@ -9,18 +9,20 @@ defmodule ViewplexTest do
 
   doctest Viewplex
 
-  test "component/1 without block" do
-    html = component(Title)
+  describe "component/1" do
+    test "without params and without block" do
+      html = component(Title)
 
-    assert safe_to_string(html) == "<h1>Hi!</h1>\n"
-  end
+      assert safe_to_string(html) == "<h1>Hi!</h1>\n"
+    end
 
-  test "component/1 with block" do
-    html =
-      component TitleBlock do
-        "You"
-      end
+    test "without params but with block" do
+      html =
+        component TitleBlock do
+          "You"
+        end
 
-    assert safe_to_string(html) == "<h1>Hi! You</h1>\n"
+      assert safe_to_string(html) == "<h1>Hi! You</h1>\n"
+    end
   end
 end
