@@ -1,6 +1,6 @@
 # Viewplex
 
-**TODO: Add description**
+A convenience library that allows you to further separate your views into scoped components.
 
 ## Installation
 
