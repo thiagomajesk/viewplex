@@ -1,56 +1,80 @@
 defmodule Viewplex.ComponentTest do
   use ExUnit.Case
 
-  import Viewplex.Helpers
-  import Phoenix.HTML, only: [safe_to_string: 1]
-
-  alias Viewplex.Components.Title
-  alias Viewplex.Components.TitleBlock
-  alias Viewplex.Components.Label
-  alias Viewplex.Components.LabelBlock
-  alias Viewplex.Components.Fail
+  alias Viewplex.Components.MountError
   alias Viewplex.Components.Mount
+  alias Viewplex.Components.OptsBlock
+  alias Viewplex.Components.Opts
+  alias Viewplex.Components.SimpleBlock
+  alias Viewplex.Components.Simple
+  alias Viewplex.Components.Slot
 
-  doctest Viewplex
+  import Viewplex.Helpers
 
-  describe "component/1" do
-    test "without params and without block" do
-      html = component(Title)
-
-      assert safe_to_string(html) == "<h1>Hi!</h1>\n"
+  describe "renders component" do
+    test "should not render when there's a mount error" do
+      data = component(MountError)
+      iodata = Phoenix.HTML.Safe.to_iodata(data)
+      assert iodata == nil
     end
 
-    test "without params but with block" do
-      html =
-        component TitleBlock do
-          "You"
+    test "should render passing custom opts when mounting" do
+      data = component(Mount, name: "John")
+      iodata = Phoenix.HTML.Safe.to_iodata(data)
+      assert IO.iodata_to_binary(iodata) == "<strong>John</strong>\n"
+    end
+
+    test "should render passing custom opts using content block" do
+      data =
+        component OptsBlock, name: "John" do
+          "How are you?"
         end
 
-      assert safe_to_string(html) == "<h1>Hi! You</h1>\n"
+      iodata = Phoenix.HTML.Safe.to_iodata(data)
+      assert IO.iodata_to_binary(iodata) == "<h1>Hello John, How are you?</h1>\n"
     end
 
-    test "with params and with block" do
-      html =
-        component LabelBlock, title: "Sir" do
-          "John Doe"
+    test "should render passing custom opts" do
+      data = component(Opts, name: "John")
+      iodata = Phoenix.HTML.Safe.to_iodata(data)
+
+      assert IO.iodata_to_binary(iodata) == "<h1>Hello John</h1>\n"
+    end
+
+    test "should render simple with block" do
+      data =
+        component SimpleBlock do
+          "John"
         end
 
-      assert safe_to_string(html) == "<span>\n  Hello!\nSir  <strong>John Doe</strong>\n</span>\n"
+      iodata = Phoenix.HTML.Safe.to_iodata(data)
+      assert IO.iodata_to_binary(iodata) == "<h1>Hello John</h1>\n"
     end
 
-    test "with params but without block" do
-      html = component(Label, title: "Sir")
-
-      assert safe_to_string(html) == "<span>\n  Hello!\nSir</span>\n"
+    test "should render simple" do
+      data = component(Simple)
+      iodata = Phoenix.HTML.Safe.to_iodata(data)
+      assert IO.iodata_to_binary(iodata) == "<h1>Hello World</h1>\n"
     end
 
-    test "should not render if mount failed" do
-      assert component(Fail) == nil
-    end
+    test "should render using slot" do
+      data =
+        component Slot do
+          "Welcome!"
 
-    test "should mount value" do
-      html = component(Mount)
-      assert safe_to_string(html) == "<strong>John</strong>\n"
+          slot :greet do
+            "Hello Sir"
+          end
+
+          slot :name do
+            "John"
+          end
+        end
+
+      iodata = Phoenix.HTML.Safe.to_iodata(data)
+
+      assert IO.iodata_to_binary(iodata) ==
+               "<div>\n  <h1>Hello Sir</h1>\n  <span>John</span>\n  <p>Welcome!</p>\n</div>\n"
     end
   end
 end

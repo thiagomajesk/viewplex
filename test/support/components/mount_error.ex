@@ -1,7 +1,7 @@
-defmodule Viewplex.Components.Fail do
+defmodule Viewplex.Components.MountError do
   use Viewplex.Component
 
-  def mount(_params) do
+  def mount(_opts) do
     {:error, "could not mount"}
   end
 end

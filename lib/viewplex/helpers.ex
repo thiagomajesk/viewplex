@@ -1,29 +1,39 @@
 defmodule Viewplex.Helpers do
-  import Phoenix.View, only: [render: 3]
+  @moduledoc """
+  Helper functions to create components and slots.
+  """
 
-  def component(module) do
-    render_component(module, %{})
+  alias Viewplex.Builder
+
+  defmacro component(module) do
+    Builder.comp_data(module, [], nil)
   end
 
-  def component(module, do: block) do
-    render_component(module, content: block)
+  defmacro component(module, do: block) do
+    Builder.comp_data(module, [], block)
   end
 
-  def component(module, params) when is_list(params) do
-    render_component(module, params)
+  defmacro component(module, assigns) when is_list(assigns) do
+    Builder.comp_data(module, assigns, nil)
   end
 
-  def component(module, params, do: block) when is_list(params) do
-    render_component(module, Keyword.put(params, :content, block))
+  defmacro component(module, content) do
+    Builder.comp_data(module, [], Phoenix.HTML.html_escape(content))
   end
 
-  defp render_component(module, params) do
-    case module.mount(params) do
-      {:ok, params} ->
-        render(module, module.__template__(), params)
+  defmacro component(module, assigns, do: block) when is_list(assigns) do
+    Builder.comp_data(module, assigns, block)
+  end
 
-      {:error, _reason} ->
-        nil
-    end
+  defmacro component(module, assigns, content) when is_list(assigns) do
+    Builder.comp_data(module, assigns, Phoenix.HTML.html_escape(content))
+  end
+
+  defmacro slot(name, do: block) do
+    Builder.slot_data(name, block)
+  end
+
+  defmacro slot(name, content) do
+    Builder.slot_data(name, Phoenix.HTML.html_escape(content))
   end
 end

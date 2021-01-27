@@ -1,0 +1,5 @@
+<div>
+  <h1><%= @slots[:greet] %></h1>
+  <span><%= @slots[:name] %></span>
+  <p><%= @content %></p>
+</div>
