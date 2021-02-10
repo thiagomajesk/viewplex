@@ -1,7 +1,7 @@
 defmodule Viewplex.Components.Mount do
-  use Viewplex.Component
+  use Viewplex.Component, [:name]
 
-  def mount(_params) do
+  def mount(_opts) do
     {:ok, [name: "John"]}
   end
 end
