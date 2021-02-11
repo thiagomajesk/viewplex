@@ -18,3 +18,11 @@ end
 Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
 and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
 be found at [https://hexdocs.pm/viewplex](https://hexdocs.pm/viewplex).
+
+## Todo's
+
+- [ ] Improve documentation 
+- [ ] Add real use-cases as examples
+- [ ] Improve function typespecs
+- [ ] Support defining components inside group folder (aka "feature folder")
+- [ ] Publish to Hex
