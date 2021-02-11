@@ -1,6 +1,8 @@
 defmodule Viewplex.MixProject do
   use Mix.Project
 
+  @url "https://github.com/thiagomajesk/viewplex"
+
   def project do
     [
       app: :viewplex,
@@ -9,7 +11,8 @@ defmodule Viewplex.MixProject do
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: [:phoenix] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
-      deps: deps()
+      deps: deps(),
+      package: package()
     ]
   end
 
@@ -17,6 +20,16 @@ defmodule Viewplex.MixProject do
   def application do
     [
       extra_applications: [:logger]
+    ]
+  end
+
+  defp package do
+    [
+      maintainers: ["Thiago Majesk Goulart"],
+      licenses: ["AGPL-3.0-only"],
+      source_url: @url,
+      links: %{"GitHub" => @url},
+      files: ~w(lib mix.exs README.md LICENSE)
     ]
   end
 
@@ -29,7 +42,8 @@ defmodule Viewplex.MixProject do
     [
       {:phoenix, "~> 1.5"},
       {:phoenix_html, "~> 2.14"},
-      {:jason, "~> 1.0"}
+      {:jason, "~> 1.0"},
+      {:ex_doc, "~> 0.23.0", only: :dev, runtime: false}
     ]
   end
 end
