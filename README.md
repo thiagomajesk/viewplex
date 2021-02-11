@@ -25,4 +25,4 @@ be found at [https://hexdocs.pm/viewplex](https://hexdocs.pm/viewplex).
 - [ ] Add real use-cases as examples
 - [ ] Improve function typespecs
 - [ ] Support defining components inside group folder (aka "feature folder")
-- [ ] Publish to Hex
+- [x] Publish to Hex
