@@ -1,18 +1,21 @@
 defmodule Viewplex.MixProject do
   use Mix.Project
 
+  @version "0.1.0"
   @url "https://github.com/thiagomajesk/viewplex"
 
   def project do
     [
       app: :viewplex,
-      version: "0.1.0",
+      version: @version,
       elixir: "~> 1.10",
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: [:phoenix] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
       deps: deps(),
-      package: package()
+      description: description(),
+      package: package(),
+      docs: docs()
     ]
   end
 
@@ -23,13 +26,28 @@ defmodule Viewplex.MixProject do
     ]
   end
 
+  defp description() do
+    "View Components for Phoenix"
+  end
+
   defp package do
     [
       maintainers: ["Thiago Majesk Goulart"],
       licenses: ["AGPL-3.0-only"],
-      source_url: @url,
       links: %{"GitHub" => @url},
       files: ~w(lib mix.exs README.md LICENSE)
+    ]
+  end
+
+  defp docs() do
+    [
+      source_ref: "v#{@version}",
+      main: "README",
+      canonical: "http://hexdocs.pm/viewplex",
+      source_url: @url,
+      extras: [
+        "README.md": [filename: "README"],
+      ]
     ]
   end
 
