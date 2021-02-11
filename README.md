@@ -26,3 +26,6 @@ be found at [https://hexdocs.pm/viewplex](https://hexdocs.pm/viewplex).
 - [ ] Improve function typespecs
 - [ ] Support defining components inside group folder (aka "feature folder")
 - [x] Publish to Hex
+- [ ] Scaffold and setup tasks
+- [ ] Component documentation generation
+- [ ] Get default component path based on app name
