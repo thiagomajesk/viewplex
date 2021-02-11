@@ -170,3 +170,5 @@ end
 - [ ] Scaffold and setup tasks
 - [ ] Component documentation generation
 - [ ] Get default component path based on app name
+- [ ] Add test samples on README
+- [ ] Log mount errors using Logger
