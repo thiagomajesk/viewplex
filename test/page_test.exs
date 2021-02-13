@@ -1,7 +1,5 @@
-defmodule Viewplex.ComponentTest do
+defmodule Viewplex.PageTest do
   use ExUnit.Case
-
-  import Viewplex.Helpers
 
   test "should render inside page" do
     iodata = Phoenix.View.render_to_iodata(PageView, "page.html", [])
