@@ -1,3 +1,3 @@
-defmodule Viewplex.Components.Simple do
+defmodule Test.Support.Components.Simple do
   use Viewplex.Component
 end

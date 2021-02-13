@@ -1,3 +1,3 @@
-defmodule Viewplex.Components.SimpleBlock do
+defmodule Test.Support.Components.SimpleBlock do
   use Viewplex.Component
 end

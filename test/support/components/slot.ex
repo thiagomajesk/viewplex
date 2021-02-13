@@ -1,3 +1,3 @@
-defmodule Viewplex.Components.Slot do
+defmodule Test.Support.Components.Slot do
   use Viewplex.Component
 end

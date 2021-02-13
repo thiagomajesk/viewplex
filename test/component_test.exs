@@ -1,13 +1,14 @@
 defmodule Viewplex.ComponentTest do
   use ExUnit.Case
 
-  alias Viewplex.Components.MountError
-  alias Viewplex.Components.Mount
-  alias Viewplex.Components.OptsBlock
-  alias Viewplex.Components.Opts
-  alias Viewplex.Components.SimpleBlock
-  alias Viewplex.Components.Simple
-  alias Viewplex.Components.Slot
+  alias Test.Support.Components.MountError
+  alias Test.Support.Components.Mount
+  alias Test.Support.Components.OptsBlock
+  alias Test.Support.Components.Opts
+  alias Test.Support.Components.SimpleBlock
+  alias Test.Support.Components.Simple
+  alias Test.Support.Components.Slot
+  alias Test.Support.Components.Grouped.Grouped
 
   import Viewplex.Helpers
 
@@ -76,5 +77,12 @@ defmodule Viewplex.ComponentTest do
       assert IO.iodata_to_binary(iodata) ==
                "<div>\n  <h1>Hello Sir</h1>\n  <span>John</span>\n  <p>Welcome!</p>\n</div>\n"
     end
+
+    test "should render inside group" do
+      data = component(Grouped, [], "Hello World")
+      iodata = Phoenix.HTML.Safe.to_iodata(data)
+      assert IO.iodata_to_binary(iodata) == "<h1>Hello World</h1>\n"
+    end
+
   end
 end

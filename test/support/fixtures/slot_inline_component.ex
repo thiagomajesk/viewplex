@@ -1,4 +1,4 @@
-defmodule Viewplex.Fixtures.SlotInlineComponent do
+defmodule Test.Support.Fixtures.SlotInlineComponent do
   use Viewplex.Component, name: "John"
 
   def call(_module, assigns),

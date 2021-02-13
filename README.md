@@ -63,6 +63,20 @@ Then, call your component inside a template:
 
 > Remember to `import Viewplex.Helpers` in your views.
 
+### Naming Conventions
+
+Components should follow the same convention as Elixir modules.  
+So, if you have a `MyAppWeb.Components.LabelComponent` module, the file should be located at: `my_app_web/components/label_component.ex`. We also support (and encourage) prefixing the component module name with "Component", following the existant naming convention for Phoenix's views and controllers.
+
+### Feature folders
+
+Intead of placing your components in the root folder, you can also group your components like this:
+
+```
+my_app_web/components/label
+my_app_web/components/label/label_component.ex
+my_app_web/components/label/label_component.html.eex
+```
 
 #### Filtering assigns
 
@@ -165,7 +179,7 @@ end
 - [ ] Improve documentation
 - [ ] Add real use-cases as examples
 - [ ] Improve function typespecs
-- [ ] Support defining components inside group folder (aka "feature folder")
+- [x] Support defining components inside group folder (aka "feature folder")
 - [x] Publish to Hex
 - [ ] Scaffold and setup tasks
 - [ ] Component documentation generation

@@ -2,7 +2,7 @@ defmodule Viewplex.CompDataTest do
   use ExUnit.Case
 
   alias Viewplex.HTML.CompData
-  alias Viewplex.Fixtures.BlocklessInlineComponent
+  alias Test.Support.Fixtures.BlocklessInlineComponent
 
   import Viewplex.Helpers
 

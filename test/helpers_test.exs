@@ -1,10 +1,10 @@
 defmodule Viewplex.HelpersTest do
   use ExUnit.Case
 
-  alias Viewplex.Fixtures.SimpleInlineComponent
-  alias Viewplex.Fixtures.BlocklessInlineComponent
-  alias Viewplex.Fixtures.BlockInlineComponent
-  alias Viewplex.Fixtures.SlotInlineComponent
+  alias Test.Support.Fixtures.SimpleInlineComponent
+  alias Test.Support.Fixtures.BlocklessInlineComponent
+  alias Test.Support.Fixtures.BlockInlineComponent
+  alias Test.Support.Fixtures.SlotInlineComponent
 
   import Viewplex.Helpers
 

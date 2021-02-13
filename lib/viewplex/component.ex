@@ -36,16 +36,16 @@ defmodule Viewplex.Component do
     quote do
       import Phoenix.HTML
 
-      path = Application.get_env(:viewplex, :path)
+      root_path = Application.get_env(:viewplex, :path)
 
-      use Phoenix.View, root: path, namespace: __MODULE__, path: ""
+      @template Viewplex.Template.template_path(__MODULE__, root_path)
 
-      base_fields = [slots: %{}, content: nil]
+      use Phoenix.View, root: root_path, namespace: __MODULE__, pattern: "**/*"
 
-      defstruct base_fields ++ unquote(fields)
+      defstruct [slots: %{}, content: nil] ++ unquote(fields)
 
       @doc false
-      def __template__, do: "#{Phoenix.Naming.resource_name(__MODULE__)}.html"
+      def __template__, do: "#{@template}.html"
 
       @doc """
       Mounts the component with the given assigns.
@@ -60,7 +60,7 @@ defmodule Viewplex.Component do
       Renders the component with the given assigns. Relies on `Phoenix.View.render/3`.
       Expects a `{:safe, iodata}` to be returned.
       """
-      @spec call(module:: any(), assigns:: any()) :: {:safe, iodata}
+      @spec call(module :: any(), assigns :: any()) :: {:safe, iodata}
       def call(module, assigns) do
         render(module, module.__template__(), assigns)
       end
