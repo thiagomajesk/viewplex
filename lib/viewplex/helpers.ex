@@ -6,27 +6,27 @@ defmodule Viewplex.Helpers do
   alias Viewplex.Builder
 
   defmacro component(module) do
-    Builder.comp_data(module, [], nil)
+    Builder.component_data(module, [], nil)
   end
 
   defmacro component(module, do: block) do
-    Builder.comp_data(module, [], block)
+    Builder.component_data(module, [], block)
   end
 
   defmacro component(module, assigns) when is_list(assigns) do
-    Builder.comp_data(module, assigns, nil)
+    Builder.component_data(module, assigns, nil)
   end
 
   defmacro component(module, content) do
-    Builder.comp_data(module, [], Phoenix.HTML.html_escape(content))
+    Builder.component_data(module, [], Phoenix.HTML.html_escape(content))
   end
 
   defmacro component(module, assigns, do: block) when is_list(assigns) do
-    Builder.comp_data(module, assigns, block)
+    Builder.component_data(module, assigns, block)
   end
 
   defmacro component(module, assigns, content) when is_list(assigns) do
-    Builder.comp_data(module, assigns, Phoenix.HTML.html_escape(content))
+    Builder.component_data(module, assigns, Phoenix.HTML.html_escape(content))
   end
 
   defmacro slot(name, do: block) do

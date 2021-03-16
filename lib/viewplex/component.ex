@@ -2,8 +2,7 @@ defmodule Viewplex.Component do
   @moduledoc """
   This module provides the base implementation of all components.
   When `use`ing the module, you can pass a list of fields as you would for `Kernel.defstruct/1`...
-  The struct fields will be used to filter/ cast the assigns passed to the directly to the template.
-  Bear in mind that this module inner implementation relies heavily on `Phoenix.View`.
+  The struct fields will be used to filter/ cast the assigns passed directly to the template.
 
   ## Examples
 
@@ -15,7 +14,7 @@ defmodule Viewplex.Component do
     end
     ```
 
-    Allowing only the `:name` property:
+    Allowing only the `:name` assign:
 
     ```
     defmodule MyComponent do
@@ -23,7 +22,7 @@ defmodule Viewplex.Component do
     end
     ```
 
-    Allowing the `:name` property and defining a default value:
+    Allowing the `:name` assign and defining a default value:
 
     ```
     defmodule MyComponent do
@@ -32,41 +31,39 @@ defmodule Viewplex.Component do
     ```
   """
 
+  @doc """
+  Mounts the component with the given assigns.
+  This function can be used to override, compute or load necessary information for the component.
+  It receives the assigns passed and expects a `{:ok, assigns}` or `{:error, reason}` tuple to be returned.
+  If `:ok` is returned, the component is mounted with the given assigns, otherwhise it won't mount.
+  """
+  @callback mount(assigns :: any()) :: any()
+
+  @doc """
+  Renders the component with the given assigns.
+  Expects a `{:safe, iodata}` to be returned.
+  """
+  @callback render(assigns :: any()) :: {:safe, iodata}
+
+  @optional_callbacks mount: 1, render: 1
+
+  @doc """
+  Use Viewplex.Component in the current module to mark it as a component.
+  """
   defmacro __using__(fields \\ []) do
     quote do
-      import Phoenix.HTML
-
-      root_path = Application.get_env(:viewplex, :path)
-
-      @template Viewplex.Template.template_path(__MODULE__, root_path)
-
-      use Phoenix.View, root: root_path, namespace: __MODULE__, pattern: "**/*"
-
       defstruct [slots: %{}, content: nil] ++ unquote(fields)
 
-      @doc false
-      def __template__, do: "#{@template}.html"
+      import Phoenix.HTML
 
-      @doc """
-      Mounts the component with the given assigns.
-      This function can be used to override, compute or load necessary information for the component.
-      It receives the assigns passed and expects a `{:ok | :error, assigns}` tuple to be returned.
-      If `:ok` is returned, the component is mounted with the given assigns, otherwhise it won't mount.
-      """
-      @spec mount(assigns :: any()) :: {:ok | :error, assigns :: any()}
+      @behaviour Viewplex.Component
+
+      @before_compile Viewplex.Renderer
+
+      @impl Viewplex.Component
       def mount(assigns), do: {:ok, assigns}
 
-      @doc """
-      Renders the component with the given assigns. Relies on `Phoenix.View.render/3`.
-      Expects a `{:safe, iodata}` to be returned.
-      """
-      @spec call(module :: any(), assigns :: any()) :: {:safe, iodata}
-      def call(module, assigns) do
-        render(module, module.__template__(), assigns)
-      end
-
       defoverridable mount: 1
-      defoverridable call: 2
     end
   end
 end

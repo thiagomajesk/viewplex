@@ -1,9 +1,0 @@
-<%= component Slot do %>
-  <% slot :greet do %>
-    <strong>Hello!<strong>
-  <% end %>
-  <% slot :name do %>
-    <span>John</span>
-  <% end %>
-  <p>How are you?</p>
-<% end %>

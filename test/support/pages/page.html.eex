@@ -1,0 +1,8 @@
+<%= component CardComponent do %>
+  <% slot :header do %>
+    <strong>Hi John<strong>
+  <% end %>
+  <% slot :body do %>
+    <p>How are you?</p>
+  <% end %>
+<% end %>

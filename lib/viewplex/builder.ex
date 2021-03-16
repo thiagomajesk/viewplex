@@ -1,11 +1,11 @@
 defmodule Viewplex.Builder do
   @moduledoc false
 
-  def comp_data(module, assigns, block) when is_list(assigns) do
+  def component_data(module, assigns, block) when is_list(assigns) do
     %{slots: slots, block: block} = map_slots(block)
 
     quote do
-      Viewplex.HTML.CompData.new(
+      Viewplex.HTML.ComponentData.new(
         unquote(module),
         unquote(slots),
         unquote(block),
@@ -16,7 +16,7 @@ defmodule Viewplex.Builder do
 
   def slot_data(name, block) do
     quote do
-      Viewplex.HTML.SlotData.new(unquote(name), unquote(block))
+      Viewplex.HTML.NamedSlotData.new(unquote(name), unquote(block))
     end
   end
 

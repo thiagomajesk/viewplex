@@ -1,118 +1,79 @@
 defmodule Viewplex.HelpersTest do
   use ExUnit.Case
 
-  alias Test.Support.Fixtures.SimpleInlineComponent
-  alias Test.Support.Fixtures.BlocklessInlineComponent
-  alias Test.Support.Fixtures.BlockInlineComponent
-  alias Test.Support.Fixtures.SlotInlineComponent
-
   import Viewplex.Helpers
 
   doctest Viewplex.Helpers
 
   describe "component/1" do
-    test "renders compontent without any opts" do
-      data = component(BlocklessInlineComponent)
+    test "renders compontent without assigns" do
+      data = component(AssignlessComponentFixture)
       iodata = Phoenix.HTML.Safe.to_iodata(data)
       assert IO.iodata_to_binary(iodata) == "Hello World"
     end
 
-    test "renders component using default opts" do
-      data = component(SimpleInlineComponent)
+    test "renders component with default assigns" do
+      data = component(AssignfullComponentFixture)
       iodata = Phoenix.HTML.Safe.to_iodata(data)
       assert IO.iodata_to_binary(iodata) == "Hello John"
     end
   end
 
   describe "component/2" do
-    test "renders component using custom opts" do
-      data = component(SimpleInlineComponent, name: "James")
+    test "renders component with assigns" do
+      data = component(AssignfullComponentFixture, name: "James")
       iodata = Phoenix.HTML.Safe.to_iodata(data)
       assert IO.iodata_to_binary(iodata) == "Hello James"
     end
 
-    test "renders component using block content" do
-      data =
-        component BlockInlineComponent do
-          "Welcome!"
-        end
-
-      iodata = Phoenix.HTML.Safe.to_iodata(data)
-      assert IO.iodata_to_binary(iodata) == "Hello John, Welcome!"
-    end
-
-    test "renders component passing inline content" do
-      data = component(BlockInlineComponent, "Welcome!")
-      iodata = Phoenix.HTML.Safe.to_iodata(data)
-      assert IO.iodata_to_binary(iodata) == "Hello John, Welcome!"
-    end
-  end
-
-  describe "component/3" do
-    test "renders component using block and default opts" do
-      data =
-        component BlockInlineComponent do
-          "Welcome!"
-        end
-
-      iodata = Phoenix.HTML.Safe.to_iodata(data)
-      assert IO.iodata_to_binary(iodata) == "Hello John, Welcome!"
-    end
-
-    test "renders component using block content and custom opts" do
-      data =
-        component BlockInlineComponent, name: "James" do
-          "Welcome!"
-        end
-
-      iodata = Phoenix.HTML.Safe.to_iodata(data)
-      assert IO.iodata_to_binary(iodata) == "Hello James, Welcome!"
-    end
-
-    test "renders component passing inline content" do
-      data = component(BlockInlineComponent, [name: "James"], "Welcome!")
-      iodata = Phoenix.HTML.Safe.to_iodata(data)
-      assert IO.iodata_to_binary(iodata) == "Hello James, Welcome!"
-    end
-  end
-
-  describe "renders component with slots" do
-    test "using content block and default opts" do
-      data =
-        component SlotInlineComponent do
-          slot :greet do
-            "Hello"
-          end
-
-          "How Are You?"
-        end
-
+    test "renders component with inline content" do
+      data = component(BlockfullComponentFixture, "How Are You?")
       iodata = Phoenix.HTML.Safe.to_iodata(data)
       assert IO.iodata_to_binary(iodata) == "Hello John, How Are You?"
     end
 
-    test "using content block and custom opts" do
-      data =
-        component SlotInlineComponent, name: "James" do
-          slot :greet do
-            "Hello"
-          end
+    test "renders component with content block" do
+      data = component(BlockfullComponentFixture, do: "How Are You?")
+      iodata = Phoenix.HTML.Safe.to_iodata(data)
+      assert IO.iodata_to_binary(iodata) == "Hello John, How Are You?"
+    end
+  end
 
-          "How Are You?"
-        end
-
+  describe "component/3" do
+    test "renders component with assigns and content block" do
+      data = component(BlockfullComponentFixture, [name: "James"], do: "How Are You?")
       iodata = Phoenix.HTML.Safe.to_iodata(data)
       assert IO.iodata_to_binary(iodata) == "Hello James, How Are You?"
     end
 
-    test "renders component passing inline content" do
-      data = component SlotInlineComponent, name: "James" do
-        slot(:greet, "Hello")
-        "How Are You?"
-      end
-
+    test "renders component with assigns and inline content" do
+      data = component(BlockfullComponentFixture, [name: "James"], "How Are You?")
       iodata = Phoenix.HTML.Safe.to_iodata(data)
       assert IO.iodata_to_binary(iodata) == "Hello James, How Are You?"
+    end
+  end
+
+  describe "renders component with slots" do
+    test "using content block and content block slots" do
+      data =
+        component SlotfullComponentFixture do
+          slot(:greet, do: "Hello")
+          slot(:name, do: "John")
+        end
+
+      iodata = Phoenix.HTML.Safe.to_iodata(data)
+      assert IO.iodata_to_binary(iodata) == "Hello John"
+    end
+
+    test "using content block and inline content slots" do
+      data =
+        component SlotfullComponentFixture do
+          slot(:greet, "Hello")
+          slot(:name, "John")
+        end
+
+      iodata = Phoenix.HTML.Safe.to_iodata(data)
+      assert IO.iodata_to_binary(iodata) == "Hello John"
     end
   end
 end

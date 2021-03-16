@@ -1,0 +1,4 @@
+<div class="card">
+  <h6 class="card-header"><%= @slots.header %></h6>
+  <div class="card-body"><%= @slots.body %></div>
+</div>
