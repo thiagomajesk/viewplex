@@ -18,18 +18,9 @@ Documentation can be be found at [https://hexdocs.pm/viewplex](https://hexdocs.p
 
 ## Usage
 
-### Configuration
-
-Configure where your components are located with:
-
-```elixir
-config :viewplex,
-  path: "lib/my_app_web/components"
-```
-
 ### Components
 
-Create new components by `use`-ing the `Viewplex.Component` module and creating a corresponding template with the same name.
+Create new components by `use`-ing the `Viewplex.Component` module and creating a corresponding template with the same name:
 
 **lib/my_app_web/components/label_component.ex:**
 
@@ -51,7 +42,7 @@ You can also use inline templates:
 defmodule LabelComponent do
   use Viewplex.Component
 
-  def call(_module, assigns), do: ~E"Hello World"
+  def render(_assigns), do: ~E"Hello World"
 end
 ```
 
@@ -68,19 +59,9 @@ Then, call your component inside a template:
 Components should follow the same convention as Elixir modules.  
 So, if you have a `MyAppWeb.Components.LabelComponent` module, the file should be located at: `my_app_web/components/label_component.ex`. We also support (and encourage) prefixing the component module name with "Component", following the existant naming convention for Phoenix's views and controllers.
 
-### Feature folders
-
-Intead of placing your components in the root folder, you can also group your components like this:
-
-```
-my_app_web/components/label
-my_app_web/components/label/label_component.ex
-my_app_web/components/label/label_component.html.eex
-```
-
 #### Filtering assigns
 
-Components can also define fields:
+Like Structs, Components can also define fields:
 
 ```elixir
 defmodule LabelComponent do
@@ -105,7 +86,7 @@ This should allow you to simply pass down a map of assigns that will be filtered
 ```
 #### Content blocks and slots
 
-You can also pass content to your components:
+You can also pass aditional content to your components in two ways:
 
 Inline:
 
@@ -113,7 +94,7 @@ Inline:
 <%= component LabelComponent, "Hello World" %>
 ```
 
-Or using do blocks:
+Or using do-blocks:
 
 ```elixir
 <%= component LabelComponent do %>
@@ -121,7 +102,7 @@ Or using do blocks:
 <% end %>
 ```
 
-This will be available as an assign under the `:content` key:
+Content passed like this will be available as an assign under the `:content` key:
 
 ```html
 <label><%= @content ></label>
@@ -140,7 +121,7 @@ Using named slots:
 ```
 
 > Notice that we are using `<%` instead of `<%=`. This is necessary because if you output the return of the `slot/2` function, you'll actually be rendering its content inside the component's block.  
-> This happens because Viewplex will scan the component block for `slot/2` function calls and then extract the slot content so it is available in the template.  
+> This happens because Viewplex will scan the component block for `slot/2` function calls and then extract the slot content so it is available in the template. This means that if you pre-render the slot in any form we won't be able to extract the proper values. 
 
 #### Mouting
 
@@ -179,10 +160,8 @@ end
 - [ ] Improve documentation
 - [ ] Add real use-cases as examples
 - [ ] Improve function typespecs
-- [x] Support defining components inside group folder (aka "feature folder")
 - [x] Publish to Hex
 - [ ] Scaffold and setup tasks
 - [ ] Component documentation generation
-- [ ] Get default component path based on app name
-- [ ] Add test samples on README
-- [ ] Log mount errors using Logger
+- [ ] Add test samples to README
+- [x] Log mount errors using Logger
